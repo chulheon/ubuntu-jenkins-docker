@@ -1,5 +1,19 @@
-FROM openjdk:8-jdk
+FROM ubuntu:16.04
 
+# install openjdk-8
+RUN apt-get update && \    
+    apt-get install -y unzip && \    
+    apt-get install -y wget && \    
+    apt-get install -y vim && \
+    apt-get install -y openjdk-8-jdk
+
+# Add Gradle
+ADD https://services.gradle.org/distributions/gradle-2.4-all.zip /opt/
+RUN unzip /opt/gradle-2.4-all.zip -d /opt/gradle
+ENV GRADLE_HOME /opt/gradle/gradle-2.4-all
+ENV PATH $GRADLE_HOME/bin:$PATH
+
+# jenkins dockerfile
 RUN apt-get update && apt-get install -y git curl && rm -rf /var/lib/apt/lists/*
 
 ENV JENKINS_HOME /var/jenkins_home
